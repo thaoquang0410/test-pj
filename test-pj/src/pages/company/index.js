@@ -1,7 +1,7 @@
 import { Col, Row, Space, Table, Tag, Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
 import { useState } from 'react';
-import CreateComp from '../../components/Detail'
+import CreateCompany from '../../components/Detail/DetailCompany'
 
 export default function Customer() {
     const columns = [
@@ -122,7 +122,7 @@ export default function Customer() {
             </Button>,
           ]}
         >
-          <CreateComp type={type}/>
+          <CreateCompany type={type}/>
         </Modal>
       </div>
     )

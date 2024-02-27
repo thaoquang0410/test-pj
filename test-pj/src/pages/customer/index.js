@@ -1,6 +1,6 @@
 import { Col, Row, Space, Table, Tag, Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
-import CreateComp from '../../components/Detail'
+import CreateCustomer from '../../components/Detail/DetailCustomer'
 import { useState } from 'react';
 
 export default function Customer() {
@@ -122,7 +122,7 @@ export default function Customer() {
             </Button>,
           ]}
         >
-          <CreateComp type={type} />
+          <CreateCustomer type={type} />
         </Modal>
       </div>
     )
