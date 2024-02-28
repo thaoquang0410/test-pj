@@ -10,7 +10,6 @@ export default function ListProduct({ product }) {
           title: 'Mã mặt hàng',
           dataIndex: 'code',
           key: 'code',
-          render: (text) => <a>{text}</a>,
         },
         {
           title: 'Tên mặt hàng',
@@ -33,8 +32,9 @@ export default function ListProduct({ product }) {
             key: 'priceTotal',
         },
       ];
-
-      const data = product;
+      let data = product.map((item) => {
+        return item
+      })
     return (
       <Table columns={columns} dataSource={data} />
     )

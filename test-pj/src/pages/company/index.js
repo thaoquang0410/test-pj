@@ -1,60 +1,43 @@
-import { Col, Row, Space, Table, Tag, Button, Modal } from 'antd';
+import { Col, Row, Table, Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateCompany from '../../components/Detail/DetailCompany'
+import { getListCompany } from '../../services';
 
 export default function Customer() {
     const columns = [
         {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
+          title: '#',
+          dataIndex: 'id',
+          key: 'id',
+        },
+        {
+          title: 'Mã nhà cung cấp',
+          dataIndex: 'code',
+          key: 'code',
           render: (text) => <a>{text}</a>,
         },
         {
-          title: 'Age',
-          dataIndex: 'age',
-          key: 'age',
+          title: 'Tên nhà cung cấp',
+          dataIndex: 'name',
+          key: 'name',
         },
         {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
+          title: 'Ngày chứng từ',
+          dataIndex: 'created_At',
+          key: 'created_At',
         },
         {
-          title: 'Tags',
-          key: 'tags',
-          dataIndex: 'tags',
-          render: (_, { tags }) => (
-            <>
-              {tags.map((tag) => {
-                let color = tag.length > 5 ? 'geekblue' : 'green';
-                if (tag === 'loser') {
-                  color = 'volcano';
-                }
-                return (
-                  <Tag color={color} key={tag}>
-                    {tag.toUpperCase()}
-                  </Tag>
-                );
-              })}
-            </>
-          ),
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <Space size="middle">
-              <a>Invite {record.name}</a>
-              <a>Delete</a>
-            </Space>
-          ),
+          title: 'Tổng tiền',
+          dataIndex: 'totalPrice',
+          key: 'totalPrice',
         },
       ];
 
       const [open, setOpen] = useState(false)
       const [type, setType] = useState('')
+      const [data, setData] = useState(null)
+      const [newData, setNewData] = useState(null)
 
       const handleCreate = () => {
         setOpen(true)
@@ -68,30 +51,22 @@ export default function Customer() {
       const handleSave = () => {
         setOpen(false)
       }
+      
+      const callbackList = (childData) => {
+        setNewData(childData)
+      }
 
-      const data = [
-        {
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          tags: ['nice', 'developer'],
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          tags: ['loser'],
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sydney No. 1 Lake Park',
-          tags: ['cool', 'teacher'],
-        },
-      ];
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const result = await getListCompany()
+            setData(result.data)
+          } catch (err) {
+            console.log(err);
+          }
+        }
+        fetchData()
+      }, [])
     return (
       <div>
         <Row justify="start">
@@ -122,7 +97,7 @@ export default function Customer() {
             </Button>,
           ]}
         >
-          <CreateCompany type={type}/>
+          <CreateCompany type={type} parent={callbackList}/>
         </Modal>
       </div>
     )

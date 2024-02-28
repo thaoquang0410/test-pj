@@ -48,7 +48,11 @@ export default function AddProduct(props) {
         priceTotal: count * price,
     }
     if (code || name || count || price) {
-      setProduct([...product, newProduct])
+      product.push(newProduct)
+      setProduct(product)
+    }
+    console.log('product', product);
+    if (product) {
       sendData(product)
     }
     handleResetField()
@@ -62,7 +66,6 @@ export default function AddProduct(props) {
     setPrice(null)
   }
 
-  useEffect(() => {}, [product])
   return (
     <div>
       <Row>
